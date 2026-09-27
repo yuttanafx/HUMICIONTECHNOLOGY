@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>HUMIC ION TECHNOLOGY — Scan · Print · Create</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Kanit:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#070B12; --panel:#0C1420; --panel2:#0F1B2A; --line:rgba(120,180,220,0.18);
+  --ink:#EAF2F7; --muted:#7C93A6; --cyan:#33D2F0; --amber:#FDA23D; --violet:#9B7CF7;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+:root[data-theme="light"]{
+  --bg:#F2F5F6; --panel:#FFFFFF; --panel2:#ECF1F3; --line:rgba(10,30,40,0.14);
+  --ink:#0B1620; --muted:#5B6A73; --cyan:#0EA5B7; --amber:#D9781E; --violet:#7C5CD6;
+}
+*{box-sizing:inherit;}
+html{scroll-behavior:smooth;}
+body{margin:0; background:var(--bg); color:var(--ink); font-family:'Kanit','Noto Sans SC',sans-serif; font-weight:300; position:relative;}
+h1,h2,h3,.disp{font-family:'Rajdhani','Noto Sans SC',sans-serif; font-weight:700; margin:0;}
+.wrap{max-width:1400px; margin:0 auto; padding:0 40px;}
+a{color:inherit; text-decoration:none;}
+
+#matrixBg{position:fixed; inset:0; width:100%; height:100%; z-index:-1; opacity:0.5; background:var(--bg);}
+
+/* NAV */
+nav{position:sticky; top:0; z-index:50; background:rgba(7,11,18,0.85); backdrop-filter:blur(10px); border-bottom:1px solid var(--line);}
+:root[data-theme="light"] nav{background:rgba(242,245,246,0.88);}
+.nav-inner{display:flex; align-items:center; justify-content:space-between; padding:16px 40px; max-width:1400px; margin:0 auto;}
+.brand{display:flex; align-items:center; gap:12px;}
+.brand-name{font-family:'Rajdhani'; font-weight:700; font-size:1.05rem; letter-spacing:0.04em;}
+.brand-tag{font-size:0.6rem; color:var(--muted); letter-spacing:0.2em; display:block; margin-top:-2px;}
+.navlinks{display:flex; gap:26px; font-size:0.8rem; letter-spacing:0.05em; color:var(--muted);}
+.navlinks a.active, .navlinks a:hover{color:var(--cyan);}
+.nav-right{display:flex; align-items:center; gap:16px;}
+.getstarted{border:1px solid var(--cyan); color:var(--cyan); padding:9px 20px; border-radius:30px; font-size:0.82rem; letter-spacing:0.04em;}
+.loginbtn{border:1px solid var(--line); color:var(--ink); padding:9px 18px; border-radius:30px; font-size:0.82rem; letter-spacing:0.04em; background:transparent; cursor:pointer; font-family:'Kanit','Noto Sans SC',sans-serif; font-weight:400;}
+.loginbtn:hover{border-color:var(--cyan); color:var(--cyan);}
+.icon-btn{width:36px; height:36px; border-radius:50%; border:1px solid var(--line); display:flex; align-items:center; justify-content:center; color:var(--muted); background:transparent; cursor:pointer; font-size:0.7rem; font-family:'Rajdhani'; font-weight:600;}
+.icon-btn:hover{color:var(--cyan); border-color:var(--cyan);}
+
+/* Login modal */
+.modal-overlay{position:fixed; inset:0; background:rgba(4,8,12,0.72); backdrop-filter:blur(4px); z-index:200; display:none; align-items:center; justify-content:center; padding:20px;}
+.modal-overlay.open{display:flex;}
+.modal-box{background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:34px 32px; width:100%; max-width:380px; position:relative;}
+.modal-close{position:absolute; top:16px; right:16px; width:30px; height:30px; border-radius:50%; border:1px solid var(--line); background:transparent; color:var(--muted); cursor:pointer; font-size:0.9rem;}
+.modal-close:hover{color:var(--cyan); border-color:var(--cyan);}
+.modal-box h2{font-size:1.3rem; margin-bottom:6px;}
+.modal-sub{color:var(--muted); font-size:0.82rem; margin:0 0 24px;}
+.field{margin-bottom:16px;}
+.field label{display:block; font-size:0.78rem; color:var(--muted); margin-bottom:6px;}
+.field input{width:100%; background:var(--panel2); border:1px solid var(--line); border-radius:8px; padding:11px 14px; color:var(--ink); font-family:'Kanit','Noto Sans SC',sans-serif; font-size:0.88rem;}
+.field input:focus{outline:2px solid var(--cyan); outline-offset:1px;}
+.modal-submit{width:100%; background:var(--cyan); color:#04141A; border:none; font-family:'Rajdhani'; font-weight:700; padding:13px; border-radius:30px; font-size:0.92rem; cursor:pointer; margin-top:6px;}
+.modal-note{font-size:0.72rem; color:var(--muted); text-align:center; margin-top:16px; line-height:1.6;}
+
+/* PDPA consent popup */
+.pdpa-overlay{position:fixed; inset:0; background:rgba(4,8,12,0.8); backdrop-filter:blur(4px); z-index:300; display:none; align-items:center; justify-content:center; padding:20px;}
+.pdpa-overlay.open{display:flex;}
+.pdpa-box{background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:32px; width:100%; max-width:460px; position:relative;}
+.pdpa-box .pdpa-head{display:flex; align-items:center; gap:14px; margin-bottom:14px;}
+.pdpa-box .badge{width:36px; height:36px; border-radius:8px; border:1px solid var(--cyan); color:var(--cyan); display:flex; align-items:center; justify-content:center; font-family:'Rajdhani'; font-weight:700; font-size:0.75rem; flex:none;}
+.pdpa-box h2{font-size:1.15rem; letter-spacing:0.02em;}
+.pdpa-box p.pdpa-pop-text{color:var(--muted); font-size:0.85rem; line-height:1.8; margin:0 0 20px;}
+.pdpa-pop-link{display:inline-block; font-size:0.8rem; color:var(--cyan); margin-bottom:22px; border-bottom:1px solid var(--cyan); padding-bottom:1px;}
+.pdpa-accept-btn{width:100%; background:var(--cyan); color:#04141A; border:none; font-family:'Rajdhani'; font-weight:700; padding:13px; border-radius:30px; font-size:0.92rem; cursor:pointer;}
+
+/* HERO */
+.hero{padding:64px 0 40px; position:relative; overflow:hidden;}
+.hero::before{content:''; position:absolute; inset:0; background:radial-gradient(circle at 70% 20%, rgba(51,210,240,0.08), transparent 55%); pointer-events:none;}
+.hero-grid{display:grid; grid-template-columns:0.85fr 1.15fr 0.75fr; gap:28px; align-items:start; position:relative;}
+.kicker{font-size:0.85rem; letter-spacing:0.15em; color:var(--cyan); margin-bottom:6px;}
+.hero h1{font-size:clamp(2rem,3.4vw,2.7rem); line-height:1.05; letter-spacing:0.01em;}
+.hero h1 .grad{background:linear-gradient(90deg,var(--cyan),var(--violet)); -webkit-background-clip:text; background-clip:text; color:transparent;}
+.sub{margin-top:14px; font-family:'Rajdhani'; font-weight:600; letter-spacing:0.15em; color:var(--muted); font-size:0.95rem;}
+.desc{margin-top:16px; color:var(--muted); font-size:0.92rem; line-height:1.8; max-width:38ch;}
+.feat-row{display:flex; gap:22px; margin-top:26px; flex-wrap:wrap;}
+.feat{width:78px; text-align:center;}
+.feat .ic{width:44px; height:44px; border:1px solid var(--line); border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 8px; color:var(--cyan);}
+.feat p{font-size:0.68rem; color:var(--muted); line-height:1.4; margin:0;}
+.cta{display:inline-block; margin-top:30px; background:var(--cyan); color:#04141A; font-family:'Rajdhani'; font-weight:700; padding:14px 26px; border-radius:30px; font-size:0.95rem;}
+
+/* Capsule visual */
+.capsule{position:relative; border:1px solid var(--line); border-radius:18px; background:linear-gradient(180deg,#0C1420,#080D14); min-height:460px; display:flex; align-items:center; justify-content:center; overflow:hidden;}
+.capsule img{width:100%; height:100%; object-fit:cover; display:block;}
+.capsule .frame-glow{position:absolute; inset:0; box-shadow:inset 0 0 60px rgba(51,210,240,0.15); pointer-events:none; border-radius:18px;}
+
+/* Right column panels */
+.panel{background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:20px 20px 22px; margin-bottom:20px;}
+.panel h3{font-size:0.95rem; letter-spacing:0.08em; color:var(--ink); margin-bottom:16px;}
+.scan-row{display:flex; align-items:center; gap:12px; margin-bottom:14px;}
+.scan-ic{width:30px; height:30px; border-radius:50%; border:1px solid var(--cyan); flex:none; display:flex; align-items:center; justify-content:center; color:var(--cyan); font-size:0.7rem;}
+.scan-row .lbl{font-size:0.78rem; color:var(--muted);}
+.scan-row .val{font-size:0.78rem; color:var(--ink); font-weight:500;}
+.bar{height:4px; background:var(--line); border-radius:4px; margin-top:6px; overflow:hidden;}
+.bar i{display:block; height:100%; width:82%; background:linear-gradient(90deg,var(--cyan),var(--violet));}
+
+.steps4{display:flex; justify-content:space-between; align-items:flex-start; margin-top:6px;}
+.st{text-align:center; flex:1; position:relative;}
+.st .circ{width:34px; height:34px; border-radius:50%; border:1px solid var(--cyan); color:var(--cyan); display:flex; align-items:center; justify-content:center; margin:0 auto 8px; font-family:'Rajdhani'; font-weight:700; background:var(--bg);}
+.st p{font-size:0.68rem; color:var(--muted); margin:2px 0 0; line-height:1.4;}
+.st p.en{color:var(--ink); font-size:0.7rem; font-weight:500;}
+.st::after{content:''; position:absolute; top:17px; left:60%; width:80%; height:1px; background:var(--line);}
+.st:last-child::after{display:none;}
+
+/* 3-column process */
+.process{padding:50px 0 70px;}
+.proc-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px;}
+.proc-card{background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:24px; display:flex; flex-direction:column;}
+.proc-head{display:flex; align-items:center; gap:14px; margin-bottom:6px;}
+.proc-head .circ{width:36px; height:36px; border-radius:50%; border:1px solid var(--cyan); color:var(--cyan); display:flex; align-items:center; justify-content:center; font-family:'Rajdhani'; font-weight:700;}
+.proc-head h3{font-size:1.15rem; letter-spacing:0.03em;}
+.proc-card > p.sub-th{font-size:0.85rem; color:var(--muted); margin:2px 0 18px 50px;}
+.icon-strip{display:flex; gap:10px; margin-bottom:16px;}
+.icon-tile{flex:1; aspect-ratio:1; background:radial-gradient(circle at 35% 30%, rgba(51,210,240,0.14), var(--panel2) 70%); border:1px solid var(--line); border-radius:10px; display:flex; align-items:center; justify-content:center; color:var(--cyan); padding:10px;}
+.icon-tile svg{width:100%; height:100%;}
+.bullets{list-style:none; margin:0 0 18px; padding:0; display:flex; flex-direction:column; gap:10px;}
+.bullets li{display:flex; align-items:center; gap:10px; font-size:0.82rem; color:var(--ink);}
+.bullets li .dot{width:8px; height:8px; border-radius:50%; background:var(--cyan); flex:none;}
+.foot-bar{margin-top:auto; background:var(--panel2); border-radius:8px; padding:10px 14px; font-size:0.78rem; color:var(--muted);}
+
+.filgrid{display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:16px;}
+.fil{background:var(--panel2); border:1px solid var(--line); border-radius:10px; padding:12px 8px; text-align:center;}
+.fil .disc{width:44px; height:44px; margin:0 auto 8px;}
+.fil .disc svg{width:100%; height:100%;}
+.fil h4{font-family:'Rajdhani'; font-size:0.85rem; margin:0 0 3px;}
+.fil p{font-size:0.62rem; color:var(--muted); margin:0; line-height:1.3;}
+
+/* PDPA */
+.pdpa{padding:10px 0 70px;}
+.pdpa-card{background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:32px;}
+.pdpa-head{display:flex; align-items:center; gap:14px; margin-bottom:8px;}
+.pdpa-head .badge{width:36px; height:36px; border-radius:8px; border:1px solid var(--cyan); color:var(--cyan); display:flex; align-items:center; justify-content:center; font-family:'Rajdhani'; font-weight:700; font-size:0.75rem;}
+.pdpa-head h2{font-size:1.3rem; letter-spacing:0.02em;}
+.pdpa-card > p.intro{color:var(--muted); font-size:0.88rem; max-width:70ch; line-height:1.8; margin:0 0 22px;}
+.pdpa-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:20px;}
+.pdpa-item{background:var(--panel2); border:1px solid var(--line); border-radius:10px; padding:16px 18px;}
+.pdpa-item h4{font-family:'Rajdhani'; font-size:0.9rem; margin:0 0 6px; color:var(--ink);}
+.pdpa-item p{font-size:0.78rem; color:var(--muted); margin:0; line-height:1.6;}
+.pdpa-note{font-size:0.75rem; color:var(--muted); border-top:1px solid var(--line); padding-top:16px; line-height:1.8;}
+
+/* footer */
+footer{border-top:1px solid var(--line); padding:34px 0; position:relative; overflow:hidden;}
+.foot-inner{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:24px;}
+.foot-links{display:flex; gap:34px; flex-wrap:wrap;}
+.foot-item{display:flex; align-items:center; gap:10px; font-size:0.78rem; color:var(--muted);}
+.foot-item .ic{width:30px; height:30px; border-radius:50%; border:1px solid var(--line); display:flex; align-items:center; justify-content:center; color:var(--cyan);}
+
+/* Video section */
+.video-sec{padding:10px 0 60px;}
+.video-card{background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:34px; display:grid; grid-template-columns:1.1fr 0.9fr; gap:36px; align-items:center;}
+.video-copy .eyebrow2{color:var(--cyan); font-size:0.82rem; letter-spacing:0.1em; margin-bottom:10px;}
+.video-copy h2{font-size:1.6rem; margin-bottom:14px;}
+.video-copy p{color:var(--muted); font-size:0.9rem; line-height:1.8; max-width:52ch; margin:0 0 22px;}
+.more-btn{display:inline-block; border:1px solid var(--cyan); color:var(--cyan); padding:12px 24px; border-radius:30px; font-family:'Rajdhani'; font-weight:600; font-size:0.9rem; letter-spacing:0.03em;}
+.more-btn:hover{background:var(--cyan); color:#04141A;}
+.video-frame{position:relative; aspect-ratio:16/10; border-radius:12px; overflow:hidden; background:linear-gradient(135deg,#0C1420,#152436); border:1px solid var(--line); display:flex; align-items:center; justify-content:center;}
+.video-frame iframe{width:100%; height:100%; border:0; display:block; position:relative; z-index:1;}
+.video-frame::before{content:''; position:absolute; inset:0; background:repeating-linear-gradient(90deg, rgba(51,210,240,0.05) 0 2px, transparent 2px 40px);}
+.play-btn{width:64px; height:64px; border-radius:50%; background:rgba(51,210,240,0.15); border:1.5px solid var(--cyan); display:flex; align-items:center; justify-content:center; position:relative; z-index:1; cursor:pointer;}
+.play-btn svg{margin-left:4px;}
+@media (max-width:860px){ .video-card{grid-template-columns:1fr;} }
+
+@media (max-width:1050px){
+  .hero-grid{grid-template-columns:1fr;}
+  .navlinks{display:none;}
+  .proc-grid{grid-template-columns:1fr;}
+  .filgrid{grid-template-columns:repeat(4,1fr);}
+  .pdpa-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<canvas id="matrixBg"></canvas>
+
+<nav>
+  <div class="nav-inner">
+    <div class="brand">
+      <svg width="32" height="32" viewBox="0 0 40 40"><circle cx="20" cy="20" r="3.4" fill="url(#g1)"/><ellipse cx="20" cy="20" rx="17" ry="7" fill="none" stroke="url(#g1)" stroke-width="1.6" transform="rotate(0 20 20)"/><ellipse cx="20" cy="20" rx="17" ry="7" fill="none" stroke="url(#g1)" stroke-width="1.6" transform="rotate(60 20 20)"/><ellipse cx="20" cy="20" rx="17" ry="7" fill="none" stroke="url(#g1)" stroke-width="1.6" transform="rotate(120 20 20)"/><defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#33D2F0"/><stop offset="1" stop-color="#9B7CF7"/></linearGradient></defs></svg>
+      <div><span class="brand-name">HUMIC ION TECHNOLOGY</span><span class="brand-tag">SCAN · PRINT · CREATE</span></div>
+    </div>
+    <div class="navlinks">
+      <a class="active" data-i18n="nav_home" href="#">HOME</a><a data-i18n="nav_scanner" href="#s1">3D SCANNER</a><a data-i18n="nav_printing" href="#s2">3D PRINTING SYSTEM</a><a data-i18n="nav_filament" href="#s3">FILAMENT MATERIALS</a><a data-i18n="nav_pdpa" href="pdpa.html">PDPA</a><a data-i18n="nav_about" href="#">ABOUT</a>
+    </div>
+    <div class="nav-right">
+      <button class="icon-btn" id="langBtn" aria-label="Switch language" title="Switch language">中</button>
+      <button class="icon-btn" id="themeBtn" aria-label="Switch theme" title="Switch theme">☾</button>
+      <button class="loginbtn" id="loginOpenBtn" data-i18n="nav_login">เข้าสู่ระบบลูกค้า</button>
+      <a class="getstarted" data-i18n="nav_get" href="https://www.midjourney.com/home" target="_blank" rel="noopener">GET STARTED →</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero wrap">
+  <div class="hero-grid">
+    <div>
+      <div class="kicker" data-i18n="hero_kicker">FROM YOU</div>
+      <h1><span data-i18n="hero_title_pre">TO 3D </span><span class="grad" data-i18n="hero_title_grad">REALITY</span></h1>
+      <div class="sub" data-i18n="hero_sub">SCAN / MODEL / PRINT / WEAR</div>
+      <p class="desc" data-i18n="hero_desc">เปลี่ยนร่างกายของคุณให้กลายเป็นแบบจำลอง 3 มิติ เพื่อสร้างสรรค์ชิ้นงานที่เป็นเอกลักษณ์เฉพาะคุณ</p>
+      <div class="feat-row">
+        <div class="feat"><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="2.5"/></svg></div><p data-i18n="feat1">High Precision (0.01 mm)</p></div>
+        <div class="feat"><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 11 14 9 22 21 10 13 10"/></svg></div><p data-i18n="feat2">Fast Scanning (&lt; 5 sec)</p></div>
+        <div class="feat"><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z"/></svg></div><p data-i18n="feat3">Safe &amp; Comfortable</p></div>
+        <div class="feat"><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 0 1 14-5M20 12a8 8 0 0 1-14 5"/></svg></div><p data-i18n="feat4">Sustainable Biomaterials</p></div>
+      </div>
+      <a class="cta" data-i18n="cta" href="https://www.midjourney.com/medical" target="_blank" rel="noopener">เริ่มแสกนร่างกายของคุณ →</a>
+    </div>
+
+    <div class="capsule">
+      <div class="frame-glow"></div>
+    </div>
+
+    <div>
+      <div class="panel">
+        <h3 data-i18n="panel_scan_title">REAL-TIME 3D SCAN</h3>
+        <div class="scan-row"><div class="scan-ic">◎</div><div style="flex:1"><div class="lbl"><span data-i18n="scan1">Scanning...</span> <span class="val">100%</span></div><div class="bar"><i></i></div></div></div>
+        <div class="scan-row"><div class="scan-ic">✓</div><div class="lbl"><span data-i18n="scan2">Body Profile</span> <span class="val" data-i18n="scan2v">Completed</span></div></div>
+        <div class="scan-row"><div class="scan-ic">◐</div><div class="lbl"><span data-i18n="scan3">Mesh Model</span> <span class="val" data-i18n="scan3v">Generating…</span></div></div>
+        <div class="scan-row"><div class="scan-ic">▣</div><div class="lbl" data-i18n="scan4">Ready to Print</div></div>
+      </div>
+      <div class="panel">
+        <h3 data-i18n="panel_process_title">SCAN PROCESS</h3>
+        <div class="steps4">
+          <div class="st"><div class="circ">1</div><p class="en" data-i18n="step1_en">Stand on Platform</p><p data-i18n="step1_th">ยืนบนแท่นสแกน</p></div>
+          <div class="st"><div class="circ">2</div><p class="en" data-i18n="step2_en">Auto Scan</p><p data-i18n="step2_th">สแกนอัตโนมัติ</p></div>
+          <div class="st"><div class="circ">3</div><p class="en" data-i18n="step3_en">3D Model</p><p data-i18n="step3_th">สร้างแบบจำลอง</p></div>
+          <div class="st"><div class="circ">4</div><p class="en" data-i18n="step4_en">Ready to Print</p><p data-i18n="step4_th">พร้อมพิมพ์งาน</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="process wrap">
+  <div class="proc-grid">
+
+    <div class="proc-card" id="s1">
+      <div class="proc-head"><div class="circ">1</div><h3 data-i18n="s1_h3">3D SCAN</h3></div>
+      <p class="sub-th" data-i18n="s1_sub">สแกนร่างกายด้วยเทคโนโลยีความละเอียดสูง</p>
+      <ul class="bullets">
+        <li><span class="dot"></span><span data-i18n="s1_b1">Full Body Scan (360°)</span></li>
+        <li><span class="dot"></span><span data-i18n="s1_b2">High Resolution (0.01mm)</span></li>
+        <li><span class="dot"></span><span data-i18n="s1_b3">AI Mesh Process (Real-time)</span></li>
+      </ul>
+      <div class="foot-bar" data-i18n="s1_foot">เก็บทุกรายละเอียดของร่างกาย สู่แบบจำลอง 3 มิติที่แม่นยำ</div>
+    </div>
+
+    <div class="proc-card" id="s2">
+      <div class="proc-head"><div class="circ">2</div><h3 data-i18n="s2_h3">3D PRINTING SYSTEM</h3></div>
+      <p class="sub-th" data-i18n="s2_sub">ระบบการพิมพ์ 3 มิติที่ครบวงจร</p>
+      <ul class="bullets">
+        <li><span class="dot"></span><span data-i18n="s2_b1">Multi-Head Printing</span></li>
+        <li><span class="dot"></span><span data-i18n="s2_b2">Biocompatible</span></li>
+        <li><span class="dot"></span><span data-i18n="s2_b3">Auto Calibration</span></li>
+        <li><span class="dot"></span><span data-i18n="s2_b4">Large Build Volume</span></li>
+      </ul>
+      <div class="foot-bar" data-i18n="s2_foot">จากแบบจำลองสู่งานจริง ด้วยเทคโนโลยีการพิมพ์ขั้นสูง</div>
+    </div>
+
+    <div class="proc-card" id="s3">
+      <div class="proc-head"><div class="circ">3</div><h3 data-i18n="s3_h3">FILAMENT MATERIAL</h3></div>
+      <p class="sub-th" data-i18n="s3_sub">เลือกวัสดุที่ใช้สำหรับชิ้นงานของคุณ</p>
+      <div class="foot-bar" data-i18n="s3_foot">🌱 Biotic Filament — วัสดุชีวภาพ ย่อยสลายได้ ปลอดภัยต่อสิ่งแวดล้อม</div>
+    </div>
+
+  </div>
+</section>
+
+<section class="wrap" style="padding:10px 0 50px;">
+  <div class="panel" style="max-width:960px; margin:0 auto;">
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:14px;">
+      <div style="width:36px;height:36px;border-radius:8px;border:1px solid var(--cyan);color:var(--cyan);display:flex;align-items:center;justify-content:center;font-family:'Rajdhani';font-weight:700;font-size:0.85rem;flex:none;">i</div>
+      <h3 data-i18n="innov_label" style="margin:0;">ข้อมูลเพิ่มเติม</h3>
+    </div>
+    <h2 data-i18n="innov_title" style="font-size:1.4rem;margin-bottom:10px;">นวัตกรรมหลัก: The Midjourney Scanner</h2>
+    <p data-i18n="innov_intro" style="color:var(--muted);font-size:0.88rem;line-height:1.8;margin:0 0 18px;">ผลิตภัณฑ์ฮาร์ดแวร์ชิ้นแรกของบริษัทคือ เครื่องสแกนร่างกายมนุษย์ 3 มิติ ที่เรียกว่า "Full-body Ultrasonic CT" (หรือ Ultrasonic CT) ซึ่งมีจุดเด่นทางเทคโนโลยีดังนี้:</p>
+    <div class="pdpa-grid">
+      <div class="pdpa-item">
+        <h4 data-i18n="innov1_h">หลักการทำงาน</h4>
+        <p data-i18n="innov1_p">ใช้คลื่นเสียงอัลตราซาวนด์ (Ultrasound) ร่วมกับการลงไปในอ่างน้ำตื้น โดยมีเซนเซอร์อัลตราซาวนด์ขนาดจิ๋ว (ประกอบด้วยชิปเซนเซอร์จำนวนมาก เช่น เทคโนโลยี Ultrasonic-on-Chip ที่ร่วมมือกับพาร์ทเนอร์อย่าง Butterfly Network) ยิงคลื่นเสียงสะท้อนเพื่อสร้างแผนที่ 3 มิติของร่างกาย</p>
+      </div>
+      <div class="pdpa-item">
+        <h4 data-i18n="innov2_h">ความเร็วระดับปฏิวัติวงการ</h4>
+        <p data-i18n="innov2_p">ใช้เวลาสแกนเพียง 60 วินาที เท่านั้น (เปรียบเทียบกับ MRI แบบเดิมที่ใช้เวลา 30–90 นาที)</p>
+      </div>
+      <div class="pdpa-item">
+        <h4 data-i18n="innov3_h">ปลอดภัยไร้กังวล</h4>
+        <p data-i18n="innov3_p">ไม่มีรังสีเอกซ์ (No X-ray) และไม่มีสนามแม่เหล็ก (No Magnet) ทำให้ร่างกายไม่ได้รับรังสีสะสม</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="video-sec wrap">
+  <div class="video-card">
+    <div class="video-copy">
+      <div class="eyebrow2" data-i18n="video_eyebrow">เบื้องหลังเทคโนโลยี</div>
+      <h2 data-i18n="video_title">ชมวิดีโอแนะนำเทคโนโลยีการสแกน</h2>
+      <p data-i18n="video_desc">ดูขั้นตอนการสแกนร่างกายและกระบวนการพิมพ์ 3 มิติแบบเต็มรูปแบบ ตั้งแต่ยืนบนแท่นสแกนจนถึงชิ้นงานที่พิมพ์เสร็จ</p>
+      <a class="more-btn" data-i18n="video_more" href="https://discord.com/invite/midjourney-medical" target="_blank" rel="noopener">ข้อมูลเพิ่มเติม</a>
+    </div>
+    <div class="video-frame">
+      <iframe src="https://www.youtube.com/embed/ai4YvYV_gW8?si=fkLN8mooLlQAhY-N" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-inner">
+    <div class="foot-links">
+      <div class="foot-item"><div class="ic">◆</div><span><span data-i18n="foot1_t">Personalized Design</span><br><span data-i18n="foot1_s">ออกแบบเฉพาะคุณ</span></span></div>
+      <div class="foot-item"><div class="ic">♻</div><span><span data-i18n="foot2_t">Sustainable Future</span><br><span data-i18n="foot2_s">เพื่ออนาคตที่ยั่งยืน</span></span></div>
+      <div class="foot-item"><div class="ic">⚡</div><span><span data-i18n="foot3_t">Innovation Technology</span><br><span data-i18n="foot3_s">ด้วยเทคโนโลยีล้ำสมัย</span></span></div>
+      <div class="foot-item"><div class="ic">✓</div><span><span data-i18n="foot4_t">Your Idea, Our Print</span><br><span data-i18n="foot4_s">ไอเดียของคุณ เราพิมพ์ให้เป็นจริง</span></span></div>
+      <div class="foot-item"><div class="ic">🔒</div><span><a href="pdpa.html" data-i18n="nav_pdpa">PDPA</a></span></div>
+    </div>
+    <div class="brand">
+      <svg width="28" height="28" viewBox="0 0 40 40"><circle cx="20" cy="20" r="3.4" fill="url(#g2)"/><ellipse cx="20" cy="20" rx="17" ry="7" fill="none" stroke="url(#g2)" stroke-width="1.6"/><ellipse cx="20" cy="20" rx="17" ry="7" fill="none" stroke="url(#g2)" stroke-width="1.6" transform="rotate(60 20 20)"/><ellipse cx="20" cy="20" rx="17" ry="7" fill="none" stroke="url(#g2)" stroke-width="1.6" transform="rotate(120 20 20)"/><defs><linearGradient id="g2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#33D2F0"/><stop offset="1" stop-color="#9B7CF7"/></linearGradient></defs></svg>
+      <div><span class="brand-name">HUMIC ION TECHNOLOGY</span><span class="brand-tag">SCAN · PRINT · CREATE</span></div>
+    </div>
+  </div>
+</footer>
+
+<div class="pdpa-overlay" id="pdpaOverlay">
+  <div class="pdpa-box">
+    <div class="pdpa-head"><div class="badge">PDPA</div><h2 data-i18n="pdpa_title">นโยบายคุ้มครองข้อมูลส่วนบุคคล</h2></div>
+    <p class="pdpa-pop-text" data-i18n="pdpa_pop_text">เว็บไซต์นี้เก็บและประมวลผลข้อมูลร่างกายของคุณ (ภาพสแกน สัดส่วน และแบบจำลอง 3 มิติ) ตามพระราชบัญญัติคุ้มครองข้อมูลส่วนบุคคล พ.ศ. 2562 (PDPA) เพื่อใช้สร้างแบบจำลองและพิมพ์ชิ้นงานตามคำขอของท่านเท่านั้น การกดยอมรับถือว่าท่านยินยอมให้เราจัดเก็บและประมวลผลข้อมูลดังกล่าว</p>
+    <a class="pdpa-pop-link" href="pdpa.html" target="_blank" rel="noopener" data-i18n="pdpa_pop_link">อ่านรายละเอียดนโยบาย PDPA ฉบับเต็ม →</a>
+    <button type="button" class="pdpa-accept-btn" id="pdpaAcceptBtn" data-i18n="pdpa_accept">ยอมรับ</button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="loginOverlay">
+  <div class="modal-box">
+    <button class="modal-close" id="loginCloseBtn" aria-label="Close">✕</button>
+    <h2 data-i18n="login_title">เข้าสู่ระบบลูกค้า</h2>
+    <p class="modal-sub" data-i18n="login_sub">เข้าดูสถานะการสแกนและงานพิมพ์ของคุณ</p>
+    <form id="loginForm">
+      <div class="field">
+        <label data-i18n="login_email">อีเมลหรือเบอร์โทรศัพท์</label>
+        <input type="text" autocomplete="username">
+      </div>
+      <div class="field">
+        <label data-i18n="login_pass">รหัสผ่าน</label>
+        <input type="password" autocomplete="current-password">
+      </div>
+      <button type="submit" class="modal-submit" data-i18n="login_submit">เข้าสู่ระบบ</button>
+    </form>
+    <p class="modal-note" data-i18n="login_note">หน้าตัวอย่างสาธิต — ยังไม่เชื่อมต่อระบบสมาชิกจริง</p>
+  </div>
+</div>
+
+<script>
+// PDPA consent popup (accept-only, no close/skip)
+(function(){
+  const overlay = document.getElementById('pdpaOverlay');
+  const acceptBtn = document.getElementById('pdpaAcceptBtn');
+  let consented = false;
+  try{ consented = localStorage.getItem('pf_pdpa_consent') === '1'; }catch(e){}
+  if(!consented){
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  acceptBtn.addEventListener('click', function(){
+    try{ localStorage.setItem('pf_pdpa_consent', '1'); }catch(e){}
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  });
+})();
+
+// Login modal
+(function(){
+  const overlay = document.getElementById('loginOverlay');
+  const openBtn = document.getElementById('loginOpenBtn');
+  const closeBtn = document.getElementById('loginCloseBtn');
+  const form = document.getElementById('loginForm');
+  function open(){ overlay.classList.add('open'); }
+  function close(){ overlay.classList.remove('open'); }
+  openBtn.addEventListener('click', open);
+  closeBtn.addEventListener('click', close);
+  overlay.addEventListener('click', function(e){ if(e.target === overlay) close(); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') close(); });
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    close();
+  });
+})();
+
+// Language toggle (default: Chinese)
+(function(){
+  const ZH = {
+    nav_home:"首页", nav_scanner:"三维扫描仪", nav_printing:"三维打印系统", nav_filament:"耗材材料", nav_pdpa:"隐私政策", nav_about:"关于我们", nav_get:"立即开始 →",
+    hero_kicker:"从你开始", hero_title_pre:"迈向三维", hero_title_grad:"现实", hero_sub:"扫描 / 建模 / 打印 / 穿戴",
+    hero_desc:"将你的身体转化为三维模型，打造独一无二、专属于你的作品。",
+    feat1:"高精度 (0.01 毫米)", feat2:"快速扫描 (< 5 秒)", feat3:"安全舒适", feat4:"可持续生物材料",
+    cta:"开始扫描你的身体 →",
+    panel_scan_title:"实时三维扫描", scan1:"扫描中...", scan2:"身体轮廓", scan2v:"已完成", scan3:"网格模型", scan3v:"生成中…", scan4:"可以打印",
+    panel_process_title:"扫描流程",
+    step1_en:"站上平台", step1_th:"站在扫描台上", step2_en:"自动扫描", step2_th:"自动扫描进行中",
+    step3_en:"三维模型", step3_th:"生成三维模型", step4_en:"准备打印", step4_th:"准备开始打印",
+    s1_h3:"三维扫描", s1_sub:"以高精度技术扫描身体",
+    s1_b1:"全身扫描 (360°)", s1_b2:"高分辨率 (0.01毫米)", s1_b3:"AI 网格处理（实时）",
+    s1_foot:"捕捉身体的每一个细节，生成精准的三维模型",
+    s2_h3:"三维打印系统", s2_sub:"完整的三维打印流程",
+    s2_b1:"多喷头打印", s2_b2:"生物相容材料", s2_b3:"自动校准", s2_b4:"大尺寸打印空间",
+    s2_foot:"以先进打印技术，将模型转化为真实作品",
+    s3_h3:"耗材材料", s3_sub:"为你的作品选择合适的材料",
+    s3_foot:"🌱 生物基耗材 — 可降解、对环境友好的天然材料",
+    innov_label:"更多资讯",
+    innov_title:"核心创新：The Midjourney Scanner",
+    innov_intro:"公司首款硬件产品是一台三维人体扫描仪，称为「全身超声波CT」（Ultrasonic CT），其技术亮点如下：",
+    innov1_h:"工作原理",
+    innov1_p:"利用超声波（Ultrasound）技术，让使用者浸入浅水槽中，透过微型超声波传感器（由大量传感器芯片组成，例如与合作伙伴 Butterfly Network 共同研发的 Ultrasonic-on-Chip 技术）发射并接收声波回响，建构出人体的三维地图。",
+    innov2_h:"革命性的速度",
+    innov2_p:"仅需 60 秒即可完成扫描（相比传统 MRI 需要 30～90 分钟）。",
+    innov3_h:"安全无忧",
+    innov3_p:"无 X 光（No X-ray）、无磁场（No Magnet），身体不会累积辐射。",
+    pdpa_title:"个人数据保护声明 (PDPA)",
+    pdpa_pop_text:"本网站将收集并处理您的身体数据（扫描图像、身体尺寸及三维模型），依据《个人数据保护法》(PDPA) 仅用于根据您的要求生成模型并打印作品。点击「同意」即表示您同意我们收集与处理上述数据。",
+    pdpa_pop_link:"阅读完整 PDPA 政策 →",
+    pdpa_accept:"同意",
+    foot1_t:"个性化设计", foot1_s:"为你专属定制", foot2_t:"可持续未来", foot2_s:"迈向绿色永续",
+    foot3_t:"创新科技", foot3_s:"以尖端技术驱动", foot4_t:"你的想法，我们打印", foot4_s:"让创意成真",
+    nav_login:"客户登录", login_title:"客户登录", login_sub:"查看您的扫描与打印进度",
+    login_email:"邮箱或手机号", login_pass:"密码", login_submit:"登录", login_note:"演示页面 — 尚未连接真实会员系统",
+    video_eyebrow:"技术幕后", video_title:"观看技术介绍视频",
+    video_desc:"了解从站上扫描台到完成三维打印作品的完整流程。",
+    video_more:"了解更多"
+  };
+  const btn = document.getElementById('langBtn');
+  function apply(lang){
+    document.querySelectorAll('[data-i18n]').forEach(function(el){
+      if(!el.dataset.orig) el.dataset.orig = el.innerHTML;
+      if(lang === 'zh' && ZH[el.dataset.i18n]){
+        el.textContent = ZH[el.dataset.i18n];
+      } else {
+        el.innerHTML = el.dataset.orig;
+      }
+    });
+    document.documentElement.lang = lang === 'zh' ? 'zh' : 'th';
+    btn.textContent = lang === 'zh' ? 'TH' : '中';
+    try{ localStorage.setItem('pf_lang', lang); }catch(e){}
+  }
+  let saved = 'zh';
+  try{ saved = localStorage.getItem('pf_lang') || 'zh'; }catch(e){}
+  apply(saved);
+  btn.addEventListener('click', function(){
+    const cur = document.documentElement.lang === 'zh' ? 'th' : 'zh';
+    apply(cur);
+  });
+})();
+
+// Theme toggle
+(function(){
+  const btn = document.getElementById('themeBtn');
+  function apply(theme){
+    document.documentElement.setAttribute('data-theme', theme);
+    btn.textContent = theme === 'light' ? '☀' : '☾';
+    try{ localStorage.setItem('pf_theme', theme); }catch(e){}
+  }
+  let saved = 'dark';
+  try{ saved = localStorage.getItem('pf_theme') || 'dark'; }catch(e){}
+  apply(saved);
+  btn.addEventListener('click', function(){
+    const cur = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+    apply(cur);
+  });
+})();
+
+// Matrix binary background
+(function(){
+  const canvas = document.getElementById('matrixBg');
+  const ctx = canvas.getContext('2d');
+  let w, h, cols, drops;
+  const fontSize = 16;
+  function resize(){
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+    cols = Math.floor(w / fontSize);
+    drops = new Array(cols).fill(0).map(function(){ return Math.random() * -50; });
+  }
+  resize();
+  window.addEventListener('resize', resize);
+  const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function draw(){
+    ctx.fillStyle = 'rgba(7,11,18,0.10)';
+    ctx.fillRect(0,0,w,h);
+    ctx.font = fontSize + 'px monospace';
+    for(let i=0;i<cols;i++){
+      const char = Math.random() > 0.5 ? '1' : '0';
+      const isHead = Math.random() > 0.92;
+      ctx.fillStyle = isHead ? 'rgba(155,124,247,0.55)' : 'rgba(51,210,240,0.28)';
+      ctx.fillText(char, i*fontSize, drops[i]*fontSize);
+      if(drops[i]*fontSize > h && Math.random() > 0.975) drops[i] = 0;
+      drops[i]++;
+    }
+  }
+  if(!reduceMotion){
+    setInterval(draw, 65);
+  } else {
+    ctx.fillStyle = 'rgba(7,11,18,1)';
+    ctx.fillRect(0,0,w,h);
+  }
+})();
+</script>
+
+</body>
+</html>
