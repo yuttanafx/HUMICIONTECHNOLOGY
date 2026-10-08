@@ -84,6 +84,9 @@ nav{position:sticky; top:0; z-index:50; background:rgba(7,11,18,0.85); backdrop-
 .cta{display:inline-block; margin-top:30px; background:var(--cyan); color:#04141A; font-family:'Rajdhani'; font-weight:700; padding:14px 26px; border-radius:30px; font-size:0.95rem;}
 .cta-more{display:inline-block; margin-top:14px; border:1px solid var(--cyan); color:var(--cyan); font-family:'Rajdhani'; font-weight:700; padding:13px 26px; border-radius:30px; font-size:0.95rem; transition:background .2s,color .2s;}
 .cta-more:hover{background:var(--cyan); color:#04141A;}
+.cta-note{margin:14px 0 0; font-size:0.78rem; color:var(--cyan); letter-spacing:0.02em; animation:ctaBlink 1.4s ease-in-out infinite;}
+@keyframes ctaBlink{0%,100%{opacity:1; text-shadow:0 0 8px rgba(51,210,240,0.7);} 50%{opacity:0.15; text-shadow:none;}}
+@media (prefers-reduced-motion: reduce){.cta-note{animation:none;}}
 
 /* Capsule visual */
 .capsule{position:relative; border:1px solid var(--line); border-radius:18px; background:linear-gradient(180deg,#0C1420,#080D14); min-height:460px; display:flex; align-items:center; justify-content:center; overflow:hidden;}
@@ -212,6 +215,7 @@ footer{border-top:1px solid var(--line); padding:34px 0; position:relative; over
       </div>
       <a class="cta" data-i18n="cta" href="#s1">เริ่มแสกนร่างกายของคุณ →</a><br>
       <a class="cta-more" data-i18n="cta_more" href="https://ynawave.blogspot.com/" target="_blank" rel="noopener">ข้อมูลเพิ่มเติม</a>
+      <p class="cta-note" data-i18n="cta_note">* ควอนตัมกระแสไฟฟ้าจากกรดอมิโน ว.8712 ลิขสิทธิ์</p>
     </div>
 
     <div class="capsule">
@@ -525,7 +529,7 @@ try{
     hero_kicker:"从你开始", hero_title_pre:"迈向三维", hero_title_grad:"现实", hero_sub:"扫描 / 建模 / 打印 / 穿戴",
     hero_desc:"将你的身体转化为三维模型，打造独一无二、专属于你的作品。",
     feat1:"高精度 (0.01 毫米)", feat2:"快速扫描 (< 5 秒)", feat3:"安全舒适", feat4:"可持续生物材料",
-    cta:"开始扫描你的身体 →", cta_more:"了解更多",
+    cta:"开始扫描你的身体 →", cta_more:"了解更多", cta_note:"* 氨基酸生物电流量子 ว.8712 版权所有",
     panel_scan_title:"实时三维扫描", scan1:"扫描中...", scan2:"身体轮廓", scan2v:"已完成", scan3:"网格模型", scan3v:"生成中…", scan4:"可以打印",
     panel_process_title:"扫描流程",
     step1_en:"站上平台", step1_th:"站在扫描台上", step2_en:"自动扫描", step2_th:"自动扫描进行中",
@@ -556,7 +560,7 @@ try{
     nav_login:"客户登录", login_title:"客户登录", login_sub:"查看您的扫描与打印进度",
     login_email:"邮箱或手机号", login_pass:"密码", login_submit:"登录", login_note:"演示页面 — 尚未连接真实会员系统",
     video_eyebrow:"技术幕后", video_title:"观看技术介绍视频",
-    video_desc:"了解从站上扫描台到完成三维打印作品的完整流程。",
+    video_desc:"了解从站上扫描台到完成三维打印作品的完整流程。核心创新：The Midjourney Scanner。\n公司的第一款硬件产品是三维人体扫描仪，名为“Full-body Ultrasonic CT”（或 Ultrasonic CT），技术亮点如下：\n\n工作原理：结合超声波（Ultrasound）与浅水池，人体进入水中后，由微型超声波传感器（由大量传感器芯片组成，例如与 Butterfly Network 等合作伙伴共同开发的 Ultrasonic-on-Chip 技术）发射并接收回波，从而生成人体的三维图。\n革命性速度：扫描仅需 60 秒（传统 MRI 需要 30–90 分钟）。\n安全无忧：无 X 射线（No X-ray），无磁场（No Magnet），身体不会累积辐射。此信息置于框内。",
     video_more:"了解更多"
   };
   const btn = document.getElementById('langBtn');
