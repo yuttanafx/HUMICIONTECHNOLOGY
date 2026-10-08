@@ -577,8 +577,8 @@ try{
     btn.textContent = lang === 'zh' ? 'TH' : '中';
     try{ localStorage.setItem('pf_lang', lang); }catch(e){}
   }
-  let saved = 'th';
-  try{ saved = localStorage.getItem('pf_lang') || 'th'; }catch(e){}
+  let saved = 'zh';
+  try{ saved = localStorage.getItem('pf_lang') || 'zh'; }catch(e){}
   apply(saved);
   btn.addEventListener('click', function(){
     const cur = document.documentElement.lang === 'zh' ? 'th' : 'zh';
