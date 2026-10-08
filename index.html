@@ -82,6 +82,8 @@ nav{position:sticky; top:0; z-index:50; background:rgba(7,11,18,0.85); backdrop-
 .feat .ic{width:44px; height:44px; border:1px solid var(--line); border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 8px; color:var(--cyan);}
 .feat p{font-size:0.68rem; color:var(--muted); line-height:1.4; margin:0;}
 .cta{display:inline-block; margin-top:30px; background:var(--cyan); color:#04141A; font-family:'Rajdhani'; font-weight:700; padding:14px 26px; border-radius:30px; font-size:0.95rem;}
+.cta-more{display:inline-block; margin-top:14px; border:1px solid var(--cyan); color:var(--cyan); font-family:'Rajdhani'; font-weight:700; padding:13px 26px; border-radius:30px; font-size:0.95rem; transition:background .2s,color .2s;}
+.cta-more:hover{background:var(--cyan); color:#04141A;}
 
 /* Capsule visual */
 .capsule{position:relative; border:1px solid var(--line); border-radius:18px; background:linear-gradient(180deg,#0C1420,#080D14); min-height:460px; display:flex; align-items:center; justify-content:center; overflow:hidden;}
@@ -208,7 +210,8 @@ footer{border-top:1px solid var(--line); padding:34px 0; position:relative; over
         <div class="feat"><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z"/></svg></div><p data-i18n="feat3">Safe &amp; Comfortable</p></div>
         <div class="feat"><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 0 1 14-5M20 12a8 8 0 0 1-14 5"/></svg></div><p data-i18n="feat4">Sustainable Biomaterials</p></div>
       </div>
-      <a class="cta" data-i18n="cta" href="#s1">เริ่มแสกนร่างกายของคุณ →</a>
+      <a class="cta" data-i18n="cta" href="#s1">เริ่มแสกนร่างกายของคุณ →</a><br>
+      <a class="cta-more" data-i18n="cta_more" href="https://ynawave.blogspot.com/" target="_blank" rel="noopener">ข้อมูลเพิ่มเติม</a>
     </div>
 
     <div class="capsule">
@@ -522,7 +525,7 @@ try{
     hero_kicker:"从你开始", hero_title_pre:"迈向三维", hero_title_grad:"现实", hero_sub:"扫描 / 建模 / 打印 / 穿戴",
     hero_desc:"将你的身体转化为三维模型，打造独一无二、专属于你的作品。",
     feat1:"高精度 (0.01 毫米)", feat2:"快速扫描 (< 5 秒)", feat3:"安全舒适", feat4:"可持续生物材料",
-    cta:"开始扫描你的身体 →",
+    cta:"开始扫描你的身体 →", cta_more:"了解更多",
     panel_scan_title:"实时三维扫描", scan1:"扫描中...", scan2:"身体轮廓", scan2v:"已完成", scan3:"网格模型", scan3v:"生成中…", scan4:"可以打印",
     panel_process_title:"扫描流程",
     step1_en:"站上平台", step1_th:"站在扫描台上", step2_en:"自动扫描", step2_th:"自动扫描进行中",
